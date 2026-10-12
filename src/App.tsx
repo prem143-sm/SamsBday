@@ -3,6 +3,7 @@ import { useState, type CSSProperties } from 'react';
 import { MusicPlayer } from '@/src/components/ui/music-player';
 import { photoLibrary } from '@/src/data/photo-library';
 import { BirthdayClock } from '@/src/components/birthday-clock';
+import { StoryMode } from '@/src/components/story-mode';
 
 export default function App() {
   const [musicSource, setMusicSource] = useState<'local' | 'youtube'>('local');
@@ -22,6 +23,7 @@ export default function App() {
         className="h-screen w-full overflow-hidden rounded-none"
       />
       <BirthdayClock onLayoutChange={setClockBottom} />
+      <StoryMode />
 
       <div className={`birthday-heading pointer-events-none fixed inset-0 flex items-center justify-center px-3 text-center mix-blend-exclusion text-white${musicSource === 'youtube' ? ' is-youtube-mode' : ''}`} style={headingStyle}>
         <h1 className="font-serif text-4xl tracking-tight md:text-7xl">

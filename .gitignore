@@ -7,4 +7,5 @@ dist/
 !.env.example
 desktop-player.png
 mobile-player.png
+mobile-layout-check.png
 node_modules
