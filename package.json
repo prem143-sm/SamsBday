@@ -1,6 +1,9 @@
 {
   "name": "webui-gallery-demo",
   "private": true,
+  "allowScripts": {
+    "esbuild": true
+  },
   "version": "1.0.0",
   "type": "module",
   "scripts": {
