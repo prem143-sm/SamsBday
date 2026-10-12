@@ -64,8 +64,11 @@ export function useMusicPlayer(library: Track[]) {
     if (audio.paused) { resumeOnTrackChange.current = true; await audio.play(); }
     else { resumeOnTrackChange.current = false; audio.pause(); }
       setError('');
-    } catch {
-      setError('Playback was blocked or this audio format is not supported.');
+    } catch (reason) {
+      const error = reason as DOMException;
+      setError(error.name === 'NotAllowedError'
+        ? 'Playback needs a click or tap before the browser can start audio.'
+        : 'Playback could not start. The file may be unavailable or use an unsupported format.');
     }
   }, [track]);
 
@@ -113,7 +116,21 @@ export function useMusicPlayer(library: Track[]) {
     const onDuration = () => setDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
     const onPlay = () => { resumeOnTrackChange.current = true; setPlaying(true); };
     const onPause = () => setPlaying(false);
-    const onError = () => setError('This track could not be loaded. Use Next to continue.');
+    const onLoadStart = () => setError('');
+    const onCanPlay = () => setError('');
+    const onError = () => {
+      const mediaError = audio.error;
+      const message = mediaError?.code === MediaError.MEDIA_ERR_NETWORK
+        ? 'Network error while loading this track. Check that the audio asset was deployed.'
+        : mediaError?.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED
+          ? 'This audio file is unavailable or unsupported. Check the deployed MP3 asset.'
+          : mediaError?.code === MediaError.MEDIA_ERR_DECODE
+            ? 'This audio file could not be decoded by the browser.'
+            : 'This track could not be loaded. Use Next to continue.';
+      setError(message);
+    };
+    audio.addEventListener('loadstart', onLoadStart);
+    audio.addEventListener('canplay', onCanPlay);
     audio.addEventListener('timeupdate', onTime);
     audio.addEventListener('loadedmetadata', onDuration);
     audio.addEventListener('play', onPlay);
@@ -122,6 +139,7 @@ export function useMusicPlayer(library: Track[]) {
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('error', onError);
     return () => {
+      audio.removeEventListener('loadstart', onLoadStart); audio.removeEventListener('canplay', onCanPlay);
       audio.removeEventListener('timeupdate', onTime); audio.removeEventListener('loadedmetadata', onDuration);
       audio.removeEventListener('play', onPlay); audio.removeEventListener('pause', onPause);
       audio.removeEventListener('ended', onEnded); audio.removeEventListener('error', onError);
