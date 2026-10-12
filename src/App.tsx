@@ -3,6 +3,7 @@ import { useState, type CSSProperties } from 'react';
 import { MusicPlayer } from '@/src/components/ui/music-player';
 import { photoLibrary } from '@/src/data/photo-library';
 import { BirthdayClock } from '@/src/components/birthday-clock';
+import { PageLoader } from '@/src/components/page-loader';
 import { StoryMode } from '@/src/components/story-mode';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
 
   return (
     <main className="min-h-screen w-full bg-slate-950 text-white">
+      <PageLoader images={photoLibrary} />
       <InfiniteGallery
         images={photoLibrary}
         speed={1.2}
