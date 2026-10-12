@@ -5,3 +5,6 @@ dist/
 .env
 .env.*
 !.env.example
+desktop-player.png
+mobile-player.png
+node_modules

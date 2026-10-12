@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --host"
+    "preview": "vite preview --host",
+    "music:scan": "node scripts/generate-music-manifest.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.121.4",

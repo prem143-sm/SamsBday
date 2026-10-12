@@ -1,4 +1,5 @@
 import InfiniteGallery from '@/components/ui/3d-gallery-photography';
+import { MusicPlayer } from '@/src/components/ui/music-player';
 
 const sampleImages = [
   {
@@ -55,6 +56,7 @@ export default function App() {
         <p>Use mouse wheel, arrow keys, or touch to navigate</p>
         <p className="opacity-60">Auto-play resumes after 3 seconds of inactivity</p>
       </div>
+      <MusicPlayer />
     </main>
   );
 }
