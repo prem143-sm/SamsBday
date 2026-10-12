@@ -6,7 +6,6 @@ import { BirthdayClock } from '@/src/components/birthday-clock';
 import { StoryMode } from '@/src/components/story-mode';
 
 export default function App() {
-  const [musicSource, setMusicSource] = useState<'local' | 'youtube'>('local');
   const [clockBottom, setClockBottom] = useState(0);
   const [youtubePlayerTop, setYouTubePlayerTop] = useState(0);
   const headingStyle = {
@@ -25,7 +24,7 @@ export default function App() {
       <BirthdayClock onLayoutChange={setClockBottom} />
       <StoryMode />
 
-      <div className={`birthday-heading pointer-events-none fixed inset-0 flex items-center justify-center px-3 text-center mix-blend-exclusion text-white${musicSource === 'youtube' ? ' is-youtube-mode' : ''}`} style={headingStyle}>
+      <div className="birthday-heading is-youtube-mode pointer-events-none fixed inset-0 flex items-center justify-center px-3 text-center mix-blend-exclusion text-white" style={headingStyle}>
         <h1 className="font-serif text-4xl tracking-tight md:text-7xl">
           <span className="italic">Happy Birthday Samiksha</span>
         </h1>
@@ -35,7 +34,7 @@ export default function App() {
         <p>Use mouse wheel, arrow keys, or touch to navigate</p>
         <p className="opacity-60">Auto-play resumes after 3 seconds of inactivity</p>
       </div>
-      <MusicPlayer onSourceChange={setMusicSource} onYouTubeBoundsChange={setYouTubePlayerTop} />
+      <MusicPlayer onYouTubeBoundsChange={setYouTubePlayerTop} />
     </main>
   );
 }
