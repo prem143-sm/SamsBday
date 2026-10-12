@@ -6,6 +6,7 @@ interface PageLoaderProps {
 }
 
 const heroImage = '/Photos/my%20fevt%20pic%20sam.jpg';
+const assetTimeout = 12_000;
 
 export function PageLoader({ images }: PageLoaderProps) {
   const [progress, setProgress] = useState(0);
@@ -33,12 +34,24 @@ export function PageLoader({ images }: PageLoaderProps) {
       }
       const onLoad = () => resolve();
       window.addEventListener('load', onLoad, { once: true });
+      window.setTimeout(resolve, assetTimeout);
     });
 
     const imagesReady = Promise.all(sources.map((src) => new Promise<void>((resolve) => {
       const image = new Image();
-      image.onload = () => { updateProgress(); resolve(); };
-      image.onerror = () => { updateProgress(); resolve(); };
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeout);
+        image.onload = null;
+        image.onerror = null;
+        updateProgress();
+        resolve();
+      };
+      const timeout = window.setTimeout(finish, assetTimeout);
+      image.onload = finish;
+      image.onerror = finish;
       image.src = src;
     })));
 
