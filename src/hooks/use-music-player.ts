@@ -142,5 +142,5 @@ export function useMusicPlayer(library: Track[]) {
     if (shouldResume) audio.play().catch(() => setError('Unable to continue playback.'));
   }, [track?.id]);
 
-  return { audioRef, artists, playlist, track, index, mode, artist: artist || artists[0] || '', playing, currentTime, duration, volume, muted, error, togglePlay, next, previous, selectTrack, setMode, selectArtist, seek, setVolume, toggleMuted: () => setMuted((value) => !value) };
+  return { audioRef, artists, playlist, track, index, mode, artist: artist || artists[0] || '', playing, currentTime, duration, volume, muted, error, togglePlay, next, previous, selectTrack, setMode, selectArtist, seek, setVolume, pause: () => audioRef.current?.pause(), toggleMuted: () => setMuted((value) => !value) };
 }

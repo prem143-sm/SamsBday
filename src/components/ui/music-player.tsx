@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { musicLibrary } from '@/src/data/music-library';
 import { useMusicPlayer } from '@/src/hooks/use-music-player';
 import { MusicPlaylist } from './music-playlist';
+import { YouTubeMusicPlayer } from './youtube-music-player';
 import './music-player.css';
 
 const formatTime = (seconds: number) => Number.isFinite(seconds)
@@ -21,13 +22,34 @@ function PlayerIcon({ name }: { name: 'previous' | 'play' | 'pause' | 'next' | '
   return <svg className="music-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
 }
 
-export function MusicPlayer() {
+interface MusicPlayerProps {
+  onSourceChange?: (source: 'local' | 'youtube') => void;
+  onYouTubeBoundsChange?: (top: number) => void;
+}
+
+export function MusicPlayer({ onSourceChange, onYouTubeBoundsChange }: MusicPlayerProps) {
   const [open, setOpen] = useState(false);
+  const [source, setSource] = useState<'local' | 'youtube'>('local');
+  const containerRef = useRef<HTMLElement | null>(null);
   const player = useMusicPlayer(musicLibrary);
   const noTracks = musicLibrary.length === 0;
 
-  return <section className="music-player" aria-label="Music player">
+  useEffect(() => { if (source === 'youtube') player.pause(); }, [source]);
+  useEffect(() => { onSourceChange?.(source); }, [onSourceChange, source]);
+  useEffect(() => {
+    if (source !== 'youtube' || !containerRef.current) { onYouTubeBoundsChange?.(0); return; }
+    const measure = () => onYouTubeBoundsChange?.(containerRef.current?.getBoundingClientRect().top ?? 0);
+    const observer = new ResizeObserver(measure);
+    observer.observe(containerRef.current);
+    window.addEventListener('resize', measure);
+    measure();
+    return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
+  }, [onYouTubeBoundsChange, open, source]);
+
+  return <section ref={containerRef} className="music-player" aria-label="Music player">
     <audio ref={player.audioRef} preload="metadata" />
+    <div className="music-source-tabs" role="tablist"><button className={source === 'local' ? 'is-selected' : ''} onClick={() => { setSource('local'); setOpen(false); }} role="tab">Local music</button><button className={source === 'youtube' ? 'is-selected' : ''} onClick={() => { setSource('youtube'); setOpen(false); }} role="tab">YouTube playlists</button></div>
+    {source === 'youtube' ? <YouTubeMusicPlayer open={open} onTogglePlaylist={() => setOpen((value) => !value)} /> : <>
     <div className="music-core">
       <div className="music-controls">
         <button onClick={player.previous} disabled={noTracks} aria-label="Previous track"><PlayerIcon name="previous" /></button>
@@ -51,5 +73,6 @@ export function MusicPlayer() {
       {player.mode === 'artist' && <div className="music-artists">{player.artists.map((artist) => <button key={artist} className={artist === player.artist ? 'is-selected' : ''} onClick={() => player.selectArtist(artist)}>{artist}</button>)}</div>}
       <MusicPlaylist tracks={player.playlist} activeIndex={player.index} onSelect={player.selectTrack} />
     </div>}
+    </>}
   </section>;
 }
