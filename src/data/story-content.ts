@@ -1,51 +1,125 @@
 export const storyPassword = '812021';
 
+export const storyTitle = "Your Param-mitra's Msg 💌";
+export const storySubtitle = 'From your Param-mitra, with lots of memories ❤️';
+export const storyIntro = `Dear Samiksha, meri Sam…
+
+Pata hai, kuch log humari life mein bina kisi plan ke aate hain, lekin dheere-dheere woh humari life ka ek bahut important part ban jaate hain. Tum bhi unhi logon mein se ek ho.
+
+Aaj jab main humari friendship ke baare mein sochta hoon, toh realize hota hai ki humari story kisi ek special moment se nahi, balki bahut saari chhoti-chhoti memories se bani hai. Kuch memories chehre par smile laati hain, kuch aankhon mein nostalgia, aur kuch bas dil ko yeh yaad dilati hain ki humne saath mein kitna kuch experience kiya hai.`;
+
 export const storyChapters = [
-  { title: 'Ek Chhoti Si Shuruaat', text: `Hamari dosti ki shuruaat hui thi 8 January 2021 ko, jab hamara first internal exam khatam hua tha.
+  { title: 'The Beginning 🌸', text: `8 January 2021.
 
-Main Rohan aur Aman ke saath baitha tha, tabhi Samiksha wahan aayi. Isse pehle maine use do-teen baar bas door se dekha tha, lekin us din pehli baar hamari proper interaction hui. Humne saath mein photos bhi click kiye.
+Humari friendship ki story ka ek special starting point. First internal exam ke baad ki woh shuruaat, pehli photo aur meri taraf se friendship ki taraf badhaya gaya pehla step.
 
-Lekin us din ki sabse special baat photos nahi thi. Special baat ye thi ki maine pehli baar khud kisi ko approach karke kaha tha ki hum dost ban sakte hain. Pata nahi kyun, lekin us waqt mann kiya ki isse dosti karni chahiye. Aur bas, ek chhoti si initiative se hamari dosti ki shuruaat ho gayi. Us waqt mujhe bilkul andaza nahi tha ki ye chhota sa moment aage chalkar meri college life ki sabse pyari memories mein se ek ban jayega.` },
-  { title: '14 February — Dosti Ka Aage Badhna', text: `Phir aaya 14 February. Exam ka time tha, aur us din Sam ne mujhe khud call karke bulaya. Woh hamari doosri proper interaction thi.
+Tab shayad mujhe bhi nahi pata tha ki yeh chhoti-si beginning ek din itni saari memories ka reason banegi.
 
-Dheere-dheere hamari baatein badhne lagin. Kabhi chats par, kabhi Instagram stories ke through, aur kabhi calls par. College mein bhi jab mauka milta, hum baat karte aur ek-doosre ke saath time spend karte.
+Phir aaya 14 February, jab tumne mujhe call kiya. Uske baad dheere-dheere conversations badhne lagi. Chats, stories, calls aur woh chhoti-chhoti baatein—jinhe us waqt hum normal samajhte the, lekin aaj yaad karne par woh bhi special lagti hain.
 
-Mujhe Sam ka baat karne ka style bahut achha lagta tha. Uska sabke saath ghul-mil kar rehna, apne tareeke se rehna, aur phir bhi apni ek alag personality maintain karna—ye sab mujhe pasand tha. College mein main hamesha koshish karta tha ki jitni ho sake, uski help kar sakun, khaaskar exams ke time. Dheere-dheere ek normal si jaan-pehchaan ek achhi aur close friendship mein badalne lagi.` },
-  { title: 'Scooty Rides, Coaching Aur Dher Saari Masti', text: `Hamari dosti mein padhai ke saath-saath masti bhi khoob hoti thi. Sam aksar mujhe college ke liye lene apni scooty se aa jaati thi. Waise mujhe ladkiyon ki driving par zyada bharosa nahi tha, aur main usse pehle kabhi kisi ladki ke peeche scooty par baitha bhi nahi tha.
+Friendship hamesha grand gestures se nahi banti. Kabhi-kabhi bas ek call, ek conversation aur ek genuine connection kaafi hota hai.` },
+  { title: 'Our College Days 🎓', text: `College ke din… kitni saari memories!
 
-Shuru-shuru mein thoda darr lagta tha, lekin Sam ke saath dheere-dheere woh darr bilkul khatam ho gaya. Hum saath mein coaching bhi jaate the. Aur ek baar toh alag hi scene ho gaya—Manas, Sam aur main, teeno ek hi scooty par! Us din maine driving bhi ki thi.
+Kabhi studies mein help karna, kabhi coaching se judi baatein, kabhi exams ka pressure aur kabhi bina kisi serious reason ke time spend karna.
 
-Manas ke ghar par masti karna, kabhi saath mein kuch khane chale jaana, aur college ke beech aise hi chhote-chhote moments enjoy karna—ye sab hamari friendship ka bahut pyara hissa rahe hain.` },
-  { title: 'Mere Room Wala Funny Incident', text: `Ek aur memory hai jo main shayad kabhi nahi bhoolunga. Ek baar Sam mere room par aayi thi. Mere liye woh ek alag hi moment tha, kyunki meri life mein pehli baar koi female friend mere room par aayi thi.
+Scooty rides, Manas ke ghar jaana, saath mein food outings aur woh moments jab normal sa din bhi yaadgaar ban jaata tha.
 
-Aur phir room owner ka shak karna! Main khud itna nervous tha ki situation aur bhi funny ho gayi. Aaj sochta hoon toh lagta hai ki hamari dosti mein aise kitne moments the jo us waqt normal lagte the, lekin ab yaad karne par chehre par smile aa jaati hai.
+Humari friendship ki beauty shayad yahi thi ki har memory perfect nahi thi, lekin har phase mein kuch na kuch aisa tha jo aaj bhi yaad aata hai.
 
-Main Sam se call par baat karte hue bhi nervous ho jaata tha aur saamne baat karte hue bhi. Nervousness hoti thi, lekin usse baat karke achha bhi bahut lagta tha. Woh meri ek aisi dost ban chuki thi jo mere liye genuinely special thi.` },
-  { title: 'Exams, Support Aur Ek Doosre Ki Help', text: `Exam ke time main apni taraf se poori koshish karta tha ki Sam ko har possible tareeke se support kar sakun. Main chahta tha ki use jitni help chahiye, main kar paun—kabhi padhai mein, kabhi kisi doubt mein, aur kabhi bas ek dost ki tarah uske saath rahkar.
+Kabhi hasi-mazaak, kabhi serious conversations, kabhi ek doosre ki help aur kabhi bas saath rehna.
 
-Aur sabse funny baat ye thi ki uski help karte-karte meri khud ki preparation bhi achhi ho jaati thi. Main bhi padh leta tha aur mere exams bhi clear ho jaate the.
+Aur haan, woh college wale din hamesha yaad rahenge—kyunki unmein sirf college ki memories nahi, humari friendship ka ek poora chapter chhupa hai.` },
+  { title: 'Little Moments, Big Memories ✨', text: `Kabhi saath mein khana khana, kabhi room par aana, kabhi kisi baat par hasna aur kabhi aise moments share karna jinka importance us waqt samajh hi nahi aata.
 
-Mere liye dosti ka matlab sirf saath mein masti karna ya ghanton baatein karna nahi tha. Dosti ka matlab tha ek-doosre ke kaam aana, support karna aur zaroorat padne par apni taraf se poori koshish karna.` },
-  { title: 'Jab Dosti Mein Dararein Aayin', text: `Hamari dosti bahut achhi thi, lekin har dosti ki tarah hamare beech bhi sab kuch hamesha perfect nahi raha. Kabhi misunderstandings hui, kabhi doosron ki baaton ka asar pada, aur kabhi situations ki wajah se hamari dosti mein distance aa gaya.
+Phir aaye signature day aur college ka last day.
 
-Lekin mere liye hamari dosti ki sabse achhi baat ye rahi ki har baar, kisi na kisi tarah, hum wapas jud gaye. Aur jab bhi dosti wapas sambhali, mujhe laga ki woh pehle se zyada mazboot ho gayi hai.
+Ek taraf khushi thi ki ek phase complete ho raha hai, aur doosri taraf yeh realization bhi ki ab shayad pehle jaisa roz milna possible nahi hoga.
 
-Ek achhi dosti ka matlab ye nahi hota ki kabhi problems hi na aayein. Kabhi-kabhi misunderstandings bhi hoti hain, distance bhi aata hai, lekin agar dosti ki jagah dil mein bani rahe, toh use dobara sambhalne ka mauka bhi mil sakta hai.` },
-  { title: 'Signature Day — College Ka Sabse Special Din', text: `Phir aaya college ka last day, hamara Signature Day. Sach kahun toh woh din meri life ke sabse achhe moments mein se ek tha.
+College khatam ho sakta hai, timetable change ho sakta hai, daily conversations kam ho sakti hain… lekin kuch memories apni jagah kabhi nahi chhodti.
 
-Us din humne bahut masti ki, sabke saath time spend kiya aur memories banayin. Khushi ke saath ek halka sa sadness bhi tha, kyunki pata tha ki kuch hi din baad hum roz ki tarah college mein nahi mil paayenge.
+Aaj bhi un dino ko yaad karta hoon toh lagta hai ki kaash kuch moments ko thoda aur jee paate.
 
-Phir bhi us din Sam ne mujhe jis tarah special feel karaya, woh mere liye bahut meaningful tha. College ke baad hum scooty par ghoomne bhi gaye—thodi driving, thoda ghoomna aur saath mein achha time spend karna. Woh din mere liye sirf college ka last day nahi tha; woh ek aisi memory ban gaya jise yaad karne par aaj bhi khushi hoti hai.` },
-  { title: 'College Ke Baad Bhi Hamari Dosti', text: `College khatam hone ke baad life ka routine badal gaya. Pehle roz milne ka mauka milta tha, lekin ab milna pehle jaisa aasaan nahi raha. Phir bhi jab bhi main BSP jaata, koshish karta ki Sam se milkar hi wapas aaun.
+Lekin shayad life aise hi hoti hai—hum moment mein hote hain toh uski value poori tarah samajh nahi aati, aur baad mein wahi moments memories bankar sabse precious lagte hain.` },
+  { title: 'After College, Still Us 🫶', text: `College ke baad life apne-apne direction mein aage badhne lagi.
 
-Kabhi hum pizza khane chale jaate, kabhi bas aise hi mil lete, aur kabhi thodi der saath baithkar time spend karte. Har baar koi bahut bada plan nahi hota tha; kabhi-kabhi bas mil lena hi kaafi hota tha.
+Responsibilities badhi, routines change hue aur milna pehle jaisa easy nahi raha.
 
-Kabhi kaam ki wajah se milna nahi ho pata, lekin jab bhi Samiksha se milta hoon, mujhe bahut khushi hoti hai. Mujhe achha lagta hai ki college ke baad bhi hamari dosti bani hui hai.` },
-  { title: 'Ek Dost Jo Mere Liye Bahut Precious Hai', text: `Aaj jab main peeche mudkar dekhta hoon, toh sochta hoon ki 8 January 2021 ko maine pehli baar khud aage badhkar kisi se dosti karne ki baat kahi thi. Us waqt mujhe nahi pata tha ki aage chalkar us ek chhote se decision se itni saari memories jud jaayengi.
+Lekin BSP mein milna, saath mein pizza khana aur time spend karna—yeh sab yaad dilata raha ki friendship sirf ek jagah ya ek phase tak limited nahi hoti.
 
-Hamari chats, calls, scooty rides, coaching ke din, exam ke time ek-doosre ki help, Manas ke ghar ki masti, mere room wala funny incident, misunderstandings aur phir se judti dosti, aur woh Signature Day—ye sab meri college life ka ek bahut special hissa hain.
+Har din baat hona zaroori nahi. Har baar milna possible nahi. Aur har moment ko photograph mein capture karna bhi zaroori nahi.
 
-Main nahi jaanta ki Samiksha ki nazar mein main uska sabse close friend hoon ya nahi. Lekin main itna zaroor jaanta hoon ki Samiksha mere liye bahut precious hai. Usse baat karke aaj bhi achha lagta hai, usse milkar aaj bhi khushi hoti hai, aur hamari dosti se judi memories aaj bhi mere liye utni hi special hain.
+Kabhi-kabhi ek simple meeting bhi kaafi hoti hai yeh feel karne ke liye ki kuch connections time ke saath khatam nahi hote; bas unka tareeka badal jaata hai.` },
+  { title: 'Misunderstandings and Distance 🌧️', text: `Main yeh nahi kahunga ki humari friendship mein kabhi problems nahi aayi.
 
-Thank you meri college life ka itna special hissa banne ke liye. 8 January 2021 se lekar aaj tak, hamari dosti meri life ki ek aisi story rahi hai jise main hamesha yaad rakhna chahta hoon. Happy Birthday, Samiksha! Hamesha khush rehna, apne dreams achieve karna aur life mein bahut aage badhna. Aur haan, apne is dost ko kabhi bhool mat jaana. — Tumhara dost, Prem` },
+Misunderstandings hui. Kabhi distance aaya. Kabhi baatein ruki aur kabhi situations ne humein alag kar diya.
+
+Shayad har baar hum ek doosre ko perfectly samajh nahi paaye. Kabhi expectations alag rahi hongi, kabhi words ka meaning alag samjha gaya hoga, aur kabhi silence ne woh keh diya hoga jo actually hum kehna nahi chahte the.
+
+Lekin humari story mein ek baat mujhe hamesha meaningful lagi—har difficult phase ke baad humne kisi na kisi tarah phir se connection banaya.
+
+Main yeh nahi kehta ki har misunderstanding ka answer mere paas hai, ya har baar main sahi tha. Main bhi galti kar sakta hoon, aur shayad kabhi tumhari feelings ko utna achhe se samajh nahi paaya jitna samajhna chahiye tha.
+
+Bas itna chahta hoon ki humari friendship mein kabhi itni jagah zaroor rahe ki hum ek doosre ko samajhne ki koshish kar sakein.
+
+Kyunki mere liye friendship ka matlab sirf achhe waqt mein saath rehna nahi, balki difficult moments mein bhi respect aur understanding ko importance dena hai.` },
+  { title: 'What You Mean to Me ❤️', text: `Sam, tum mere liye sirf college ki ek friend nahi ho.
+
+Tum meri un memories ka part ho jo meri life ke ek important phase se judi hui hain. Tumhare saath judi hui chhoti-chhoti baatein, humari conversations aur saath bitaya hua time—yeh sab meri personal story ka hissa hain.
+
+Main tumhe apni Param-mitra maanta hoon—ek aisa dost jiske saath friendship ki apni ek alag value hai.
+
+Iska matlab yeh nahi ki hum hamesha agree karenge, kabhi hurt nahi honge ya humari life hamesha same rahegi.
+
+Iska matlab bas itna hai ki main humari friendship ko genuinely value karta hoon.
+
+Tumhari happiness, tumhari growth aur tumhare dreams important hain. Main chahta hoon ki tum life mein aage badho, apne goals achieve karo aur khud par proud feel karo.
+
+Aur jab kabhi tum humari purani memories yaad karo, toh tumhare face par bhi wahi smile aaye jo mujhe in sab baaton ko yaad karke aati hai.` },
+  { title: 'A Wish for Your Future 🌷', text: `Meri wish hai ki tumhari life mein bahut saari khushiyan aayein.
+
+Tum jo bhi achieve karna chahti ho, uske liye tumhe confidence, patience aur opportunities milein. Difficult days mein tum apne aap par trust karna na bhoolo.
+
+Har cheez hamesha plan ke according nahi hoti, lekin iska matlab yeh nahi ki hum apni journey mein fail ho gaye.
+
+Kabhi slow progress bhi progress hoti hai. Kabhi rest lena bhi zaroori hota hai. Aur kabhi bas khud ko thoda time dena hi sabse achha decision hota hai.
+
+I hope tum apni life mein aise moments experience karo jahan tumhe genuinely lage—haan, main khush hoon, main grow kar rahi hoon, aur main apni life mein achha kar rahi hoon.
+
+Tumhare dreams sirf dreams bankar na reh jaayein. Tum unhe ek-ek karke achieve karo.` },
+  { title: 'A Small Promise, Without Any Conditions 🕊️', text: `Main future ke baare mein koi filmy promise nahi karunga, kyunki life unpredictable hai aur hum dono apni-apni journeys mein grow karenge.
+
+Lekin aaj ke din main itna zaroor kehna chahta hoon:
+
+Main humari friendship ko lightly nahi leta. Jo memories humne banayi hain, unki mere liye value hai.
+
+Agar kabhi humari baaton mein misunderstanding ho, toh main chahta hoon ki hum assumptions se pehle conversation ko chance dein.
+
+Agar kabhi busy ho jaayein, toh ek doosre ki responsibilities ko samjhein.
+
+Aur agar kabhi life humein different directions mein le jaaye, toh hum apni friendship ko respect aur good wishes ke saath yaad rakhein.
+
+Kyunki ek achhi friendship ka matlab kisi ko baandhkar rakhna nahi hota. Uska matlab hota hai ek doosre ko grow karne ki space dena aur saath bitaye hue waqt ki value samajhna.` },
+  { title: 'Happy Birthday, Samiksha! 🎂', text: `Aur ab birthday girl ke liye meri last baat…
+
+Happy Birthday, Sam! ❤️
+
+Thank you meri life ki itni saari memories ka part banne ke liye. Thank you un conversations, un moments, un laughs aur un experiences ke liye jinhone humari friendship ko humari apni ek story di.
+
+Ho sakta hai hum har memory ko perfectly yaad na rakh paayein. Ho sakta hai kuch moments waqt ke saath blur ho jaayein. Lekin main chahta hoon ki tumhe hamesha yaad rahe ki tumhari friendship mere liye meaningful hai.
+
+Aaj tumhara day hai, toh khulkar smile karna, apne favourite moments enjoy karna aur khud ko yaad dilana ki tum bhi apni life ki story ki main character ho.
+
+Apne dreams ke liye mehnat karna, apni happiness ko importance dena aur kabhi yeh mat sochna ki tumhe har cheez akele hi figure out karni hai.
+
+Life mein naye log aayenge, naye chapters likhe jaayenge aur bahut saari new memories banengi.
+
+Bas meri wish hai ki humari friendship ka chapter bhi apni jagah ek achhi, genuine aur beautiful memory bankar rahe.
+
+From your Param-mitra,
+
+Tumhara dost, jo humari friendship aur usse judi memories ko dil se value karta hai.
+
+Happy Birthday once again, Samiksha! 🌸💖
+
+May your next chapter be kinder, brighter, happier, and full of dreams coming true.` },
 ];
