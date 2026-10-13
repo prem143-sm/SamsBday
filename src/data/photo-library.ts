@@ -7,299 +7,299 @@ export interface GalleryImage {
 
 export const photoLibrary: GalleryImage[] = [
   {
-    "src": "/Photos/11.png",
+    "src": "/Photos/optimized/11.webp",
     "alt": "11"
   },
   {
-    "src": "/Photos/1763827900199.jpg",
+    "src": "/Photos/optimized/1763827900199.webp",
     "alt": "1763827900199"
   },
   {
-    "src": "/Photos/2.jpg",
+    "src": "/Photos/optimized/2.webp",
     "alt": "2"
   },
   {
-    "src": "/Photos/4.jpg",
+    "src": "/Photos/optimized/4.webp",
     "alt": "4"
   },
   {
-    "src": "/Photos/5.jpg",
+    "src": "/Photos/optimized/5.webp",
     "alt": "5"
   },
   {
-    "src": "/Photos/5(1).jpg",
+    "src": "/Photos/optimized/5(1).webp",
     "alt": "5(1)"
   },
   {
-    "src": "/Photos/858294cefd794921a98536e0d420864d.jpg",
+    "src": "/Photos/optimized/858294cefd794921a98536e0d420864d.webp",
     "alt": "858294cefd794921a98536e0d420864d"
   },
   {
-    "src": "/Photos/917354143899_status_065ff0dabaf0416a9ecb6ede5d658d3a.jpg",
+    "src": "/Photos/optimized/917354143899_status_065ff0dabaf0416a9ecb6ede5d658d3a.webp",
     "alt": "917354143899 status 065ff0dabaf0416a9ecb6ede5d658d3a"
   },
   {
-    "src": "/Photos/917354143899_status_1628eccdfabb4678b9047aa6889ea895.jpg",
+    "src": "/Photos/optimized/917354143899_status_1628eccdfabb4678b9047aa6889ea895.webp",
     "alt": "917354143899 status 1628eccdfabb4678b9047aa6889ea895"
   },
   {
-    "src": "/Photos/917354143899_status_291f3766cfb24161bceb43f60bad00b5.jpg",
+    "src": "/Photos/optimized/917354143899_status_291f3766cfb24161bceb43f60bad00b5.webp",
     "alt": "917354143899 status 291f3766cfb24161bceb43f60bad00b5"
   },
   {
-    "src": "/Photos/917354143899_status_2d8dd7f6dc3149f8bc6928eceb9a4062.jpg",
+    "src": "/Photos/optimized/917354143899_status_2d8dd7f6dc3149f8bc6928eceb9a4062.webp",
     "alt": "917354143899 status 2d8dd7f6dc3149f8bc6928eceb9a4062"
   },
   {
-    "src": "/Photos/917354143899_status_4ffdd13c1af94909ab7dd672a3f81865.jpg",
+    "src": "/Photos/optimized/917354143899_status_4ffdd13c1af94909ab7dd672a3f81865.webp",
     "alt": "917354143899 status 4ffdd13c1af94909ab7dd672a3f81865"
   },
   {
-    "src": "/Photos/917354143899_status_561bfe332ed54561b20ee4166f972b69.jpg",
+    "src": "/Photos/optimized/917354143899_status_561bfe332ed54561b20ee4166f972b69.webp",
     "alt": "917354143899 status 561bfe332ed54561b20ee4166f972b69"
   },
   {
-    "src": "/Photos/917354143899_status_5fbec55d853441ecb15dd2539b610d34.jpg",
+    "src": "/Photos/optimized/917354143899_status_5fbec55d853441ecb15dd2539b610d34.webp",
     "alt": "917354143899 status 5fbec55d853441ecb15dd2539b610d34"
   },
   {
-    "src": "/Photos/917354143899_status_673f3495bbb44fecbaec742b07946783.jpg",
+    "src": "/Photos/optimized/917354143899_status_673f3495bbb44fecbaec742b07946783.webp",
     "alt": "917354143899 status 673f3495bbb44fecbaec742b07946783"
   },
   {
-    "src": "/Photos/917354143899_status_942763c9e5f947c2962c4209e06c5737.jpg",
+    "src": "/Photos/optimized/917354143899_status_942763c9e5f947c2962c4209e06c5737.webp",
     "alt": "917354143899 status 942763c9e5f947c2962c4209e06c5737"
   },
   {
-    "src": "/Photos/917354143899_status_9867e79903494fa9883d7015ca922a43.jpg",
+    "src": "/Photos/optimized/917354143899_status_9867e79903494fa9883d7015ca922a43.webp",
     "alt": "917354143899 status 9867e79903494fa9883d7015ca922a43"
   },
   {
-    "src": "/Photos/917354143899_status_abdc3c36d4334273ab83b946e6205784.jpg",
+    "src": "/Photos/optimized/917354143899_status_abdc3c36d4334273ab83b946e6205784.webp",
     "alt": "917354143899 status abdc3c36d4334273ab83b946e6205784"
   },
   {
-    "src": "/Photos/917354143899_status_c648122d119a460f9ce750ec699a5ce3.jpg",
+    "src": "/Photos/optimized/917354143899_status_c648122d119a460f9ce750ec699a5ce3.webp",
     "alt": "917354143899 status c648122d119a460f9ce750ec699a5ce3"
   },
   {
-    "src": "/Photos/917354143899_status_c77fea9b550747bc93ef77959ccec3db.jpg",
+    "src": "/Photos/optimized/917354143899_status_c77fea9b550747bc93ef77959ccec3db.webp",
     "alt": "917354143899 status c77fea9b550747bc93ef77959ccec3db"
   },
   {
-    "src": "/Photos/917354143899_status_ce09881aa77940228ac36b3be0db6ced.jpg",
+    "src": "/Photos/optimized/917354143899_status_ce09881aa77940228ac36b3be0db6ced.webp",
     "alt": "917354143899 status ce09881aa77940228ac36b3be0db6ced"
   },
   {
-    "src": "/Photos/cf25d323781148ef84b292319d95adf4.jpg",
+    "src": "/Photos/optimized/cf25d323781148ef84b292319d95adf4.webp",
     "alt": "cf25d323781148ef84b292319d95adf4"
   },
   {
-    "src": "/Photos/DSC_0064.JPG",
+    "src": "/Photos/optimized/DSC_0064.webp",
     "alt": "DSC 0064"
   },
   {
-    "src": "/Photos/FB_IMG_1591493242300.jpg",
+    "src": "/Photos/optimized/FB_IMG_1591493242300.webp",
     "alt": "FB IMG 1591493242300"
   },
   {
-    "src": "/Photos/FB_IMG_1695801491080.jpg",
+    "src": "/Photos/optimized/FB_IMG_1695801491080.webp",
     "alt": "FB IMG 1695801491080"
   },
   {
-    "src": "/Photos/FB_IMG_1710526812998.jpg",
+    "src": "/Photos/optimized/FB_IMG_1710526812998.webp",
     "alt": "FB IMG 1710526812998"
   },
   {
-    "src": "/Photos/IMG_20210128_201531.jpg",
+    "src": "/Photos/optimized/IMG_20210128_201531.webp",
     "alt": "IMG 20210128 201531"
   },
   {
-    "src": "/Photos/IMG_20240310_115921.jpg",
+    "src": "/Photos/optimized/IMG_20240310_115921.webp",
     "alt": "IMG 20240310 115921"
   },
   {
-    "src": "/Photos/IMG_20240614_080846.jpg",
+    "src": "/Photos/optimized/IMG_20240614_080846.webp",
     "alt": "IMG 20240614 080846"
   },
   {
-    "src": "/Photos/IMG_20260106_174456.jpg",
+    "src": "/Photos/optimized/IMG_20260106_174456.webp",
     "alt": "IMG 20260106 174456"
   },
   {
-    "src": "/Photos/IMG_20260106_174459.jpg",
+    "src": "/Photos/optimized/IMG_20260106_174459.webp",
     "alt": "IMG 20260106 174459"
   },
   {
-    "src": "/Photos/IMG-20220214-WA0019.jpg",
+    "src": "/Photos/optimized/IMG-20220214-WA0019.webp",
     "alt": "IMG 20220214 WA0019"
   },
   {
-    "src": "/Photos/IMG-20220214-WA0020.jpg",
+    "src": "/Photos/optimized/IMG-20220214-WA0020.webp",
     "alt": "IMG 20220214 WA0020"
   },
   {
-    "src": "/Photos/IMG-20220313-WA0033.jpg",
+    "src": "/Photos/optimized/IMG-20220313-WA0033.webp",
     "alt": "IMG 20220313 WA0033"
   },
   {
-    "src": "/Photos/IMG-20220413-WA0004.jpg",
+    "src": "/Photos/optimized/IMG-20220413-WA0004.webp",
     "alt": "IMG 20220413 WA0004"
   },
   {
-    "src": "/Photos/IMG-20220413-WA0005.jpg",
+    "src": "/Photos/optimized/IMG-20220413-WA0005.webp",
     "alt": "IMG 20220413 WA0005"
   },
   {
-    "src": "/Photos/IMG-20221206-WA0012.jpg",
+    "src": "/Photos/optimized/IMG-20221206-WA0012.webp",
     "alt": "IMG 20221206 WA0012"
   },
   {
-    "src": "/Photos/IMG-20221216-WA0003.jpg",
+    "src": "/Photos/optimized/IMG-20221216-WA0003.webp",
     "alt": "IMG 20221216 WA0003"
   },
   {
-    "src": "/Photos/IMG20231223164326.jpg",
+    "src": "/Photos/optimized/IMG20231223164326.webp",
     "alt": "IMG20231223164326"
   },
   {
-    "src": "/Photos/IMG20231223170105.jpg",
+    "src": "/Photos/optimized/IMG20231223170105.webp",
     "alt": "IMG20231223170105"
   },
   {
-    "src": "/Photos/IMG20231224140005.jpg",
+    "src": "/Photos/optimized/IMG20231224140005.webp",
     "alt": "IMG20231224140005"
   },
   {
-    "src": "/Photos/IMG20231224140043.jpg",
+    "src": "/Photos/optimized/IMG20231224140043.webp",
     "alt": "IMG20231224140043"
   },
   {
-    "src": "/Photos/IMG20231224163245.jpg",
+    "src": "/Photos/optimized/IMG20231224163245.webp",
     "alt": "IMG20231224163245"
   },
   {
-    "src": "/Photos/IMG20231224164024.jpg",
+    "src": "/Photos/optimized/IMG20231224164024.webp",
     "alt": "IMG20231224164024"
   },
   {
-    "src": "/Photos/IMG20231224164421.jpg",
+    "src": "/Photos/optimized/IMG20231224164421.webp",
     "alt": "IMG20231224164421"
   },
   {
-    "src": "/Photos/IMG20231225132616.jpg",
+    "src": "/Photos/optimized/IMG20231225132616.webp",
     "alt": "IMG20231225132616"
   },
   {
-    "src": "/Photos/IMG20231225132646.jpg",
+    "src": "/Photos/optimized/IMG20231225132646.webp",
     "alt": "IMG20231225132646"
   },
   {
-    "src": "/Photos/IMG20231225134154.jpg",
+    "src": "/Photos/optimized/IMG20231225134154.webp",
     "alt": "IMG20231225134154"
   },
   {
-    "src": "/Photos/IMG20231225134345.jpg",
+    "src": "/Photos/optimized/IMG20231225134345.webp",
     "alt": "IMG20231225134345"
   },
   {
-    "src": "/Photos/IMG20240224203351.jpg",
+    "src": "/Photos/optimized/IMG20240224203351.webp",
     "alt": "IMG20240224203351"
   },
   {
-    "src": "/Photos/IMG20240224203416.jpg",
+    "src": "/Photos/optimized/IMG20240224203416.webp",
     "alt": "IMG20240224203416"
   },
   {
-    "src": "/Photos/IMG20240224211540.jpg",
+    "src": "/Photos/optimized/IMG20240224211540.webp",
     "alt": "IMG20240224211540"
   },
   {
-    "src": "/Photos/IMG20240224211714.jpg",
+    "src": "/Photos/optimized/IMG20240224211714.webp",
     "alt": "IMG20240224211714"
   },
   {
-    "src": "/Photos/IMG20240224211831.jpg",
+    "src": "/Photos/optimized/IMG20240224211831.webp",
     "alt": "IMG20240224211831"
   },
   {
-    "src": "/Photos/IMG20240224212028.jpg",
+    "src": "/Photos/optimized/IMG20240224212028.webp",
     "alt": "IMG20240224212028"
   },
   {
-    "src": "/Photos/my%20fevt%20pic%20sam.jpg",
+    "src": "/Photos/optimized/my%20fevt%20pic%20sam.webp",
     "alt": "my fevt pic sam"
   },
   {
-    "src": "/Photos/sam%201.png",
+    "src": "/Photos/optimized/sam%201.webp",
     "alt": "sam 1"
   },
   {
-    "src": "/Photos/sam.jpg",
+    "src": "/Photos/optimized/sam.webp",
     "alt": "sam"
   },
   {
-    "src": "/Photos/sam1.1.jpg",
+    "src": "/Photos/optimized/sam1.1.webp",
     "alt": "sam1.1"
   },
   {
-    "src": "/Photos/sam1.2.jpg",
+    "src": "/Photos/optimized/sam1.2.webp",
     "alt": "sam1.2"
   },
   {
-    "src": "/Photos/sam1.3.jpg",
+    "src": "/Photos/optimized/sam1.3.webp",
     "alt": "sam1.3"
   },
   {
-    "src": "/Photos/sam1.4.jpg",
+    "src": "/Photos/optimized/sam1.4.webp",
     "alt": "sam1.4"
   },
   {
-    "src": "/Photos/sam1.5.jpg",
+    "src": "/Photos/optimized/sam1.5.webp",
     "alt": "sam1.5"
   },
   {
-    "src": "/Photos/sam1.6.jpg",
+    "src": "/Photos/optimized/sam1.6.webp",
     "alt": "sam1.6"
   },
   {
-    "src": "/Photos/sam1.7.jpg",
+    "src": "/Photos/optimized/sam1.7.webp",
     "alt": "sam1.7"
   },
   {
-    "src": "/Photos/sam1.8.jpg",
+    "src": "/Photos/optimized/sam1.8.webp",
     "alt": "sam1.8"
   },
   {
-    "src": "/Photos/samiksha%20BSc%2020220109_200844.jpg",
+    "src": "/Photos/optimized/samiksha%20BSc%2020220109_200844.webp",
     "alt": "samiksha BSc 20220109 200844"
   },
   {
-    "src": "/Photos/samiksha%20BSc%2020220115_110714.jpg",
+    "src": "/Photos/optimized/samiksha%20BSc%2020220115_110714.webp",
     "alt": "samiksha BSc 20220115 110714"
   },
   {
-    "src": "/Photos/samiksha.upadhyay.547-19012022-0001.jpg",
+    "src": "/Photos/optimized/samiksha.upadhyay.547-19012022-0001.webp",
     "alt": "samiksha.upadhyay.547 19012022 0001"
   },
   {
-    "src": "/Photos/samiksha.upadhyay.547-19012022-0002.jpg",
+    "src": "/Photos/optimized/samiksha.upadhyay.547-19012022-0002.webp",
     "alt": "samiksha.upadhyay.547 19012022 0002"
   },
   {
-    "src": "/Photos/samiksha.upadhyay.547-19012022-0003.jpg",
+    "src": "/Photos/optimized/samiksha.upadhyay.547-19012022-0003.webp",
     "alt": "samiksha.upadhyay.547 19012022 0003"
   },
   {
-    "src": "/Photos/samiksha.upadhyay.547-19012022-0005.jpg",
+    "src": "/Photos/optimized/samiksha.upadhyay.547-19012022-0005.webp",
     "alt": "samiksha.upadhyay.547 19012022 0005"
   },
   {
-    "src": "/Photos/samiksha.upadhyay.547-19012022-0009.jpg",
+    "src": "/Photos/optimized/samiksha.upadhyay.547-19012022-0009.webp",
     "alt": "samiksha.upadhyay.547 19012022 0009"
   },
   {
-    "src": "/Photos/samiksha.upadhyay.547-19012022-0011.jpg",
+    "src": "/Photos/optimized/samiksha.upadhyay.547-19012022-0011.webp",
     "alt": "samiksha.upadhyay.547 19012022 0011"
   }
 ];

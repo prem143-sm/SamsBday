@@ -5,8 +5,9 @@ interface PageLoaderProps {
   images: GalleryImage[];
 }
 
-const heroImage = '/Photos/my%20fevt%20pic%20sam.jpg';
+const heroImage = '/Photos/optimized/my%20fevt%20pic%20sam.webp';
 const assetTimeout = 12_000;
+const initialImageCount = 12;
 
 export function PageLoader({ images }: PageLoaderProps) {
   const [progress, setProgress] = useState(0);
@@ -15,7 +16,7 @@ export function PageLoader({ images }: PageLoaderProps) {
   const [complete, setComplete] = useState(false);
   const [visible, setVisible] = useState(true);
   const sources = useMemo(
-    () => [...new Set([...images.map((image) => image.src), heroImage])],
+    () => [...new Set([...images.slice(0, initialImageCount).map((image) => image.src), heroImage])],
     [images],
   );
 
