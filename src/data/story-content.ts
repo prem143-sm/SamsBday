@@ -29,7 +29,7 @@ Humari friendship ki beauty shayad yahi thi ki har memory perfect nahi thi, leki
 Kabhi hasi-mazaak, kabhi serious conversations, kabhi ek doosre ki help aur kabhi bas saath rehna.
 
 Aur haan, woh college wale din hamesha yaad rahenge—kyunki unmein sirf college ki memories nahi, humari friendship ka ek poora chapter chhupa hai.` },
-  { title: 'Little Moments, Big Memories ✨', text: `Kabhi saath mein khana khana, kabhi room par aana, kabhi kisi baat par hasna aur kabhi aise moments share karna jinka importance us waqt samajh hi nahi aata.
+  { title: 'Little Moments, Big Memories ✨', text: `Kabhi saath mein khana khana, kabhi room par Study karne aana, kabhi kisi baat par hasna aur kabhi aise moments share karna jinka importance us waqt samajh hi nahi aata.
 
 Phir aaye signature day aur college ka last day.
 
