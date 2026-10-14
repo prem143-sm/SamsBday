@@ -23,6 +23,8 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
   const activePlaylistIdRef = useRef(musicPlaylists[0]?.id ?? '');
   const currentIndexRef = useRef(-1);
   const failedTracksRef = useRef<Set<string>>(new Set());
+  const shuffleRef = useRef(false);
+  const historyRef = useRef<number[]>([]);
 
   const [panelOpen, setPanelOpen] = useState(false);
   const [activePlaylistId, setActivePlaylistId] = useState(activePlaylistIdRef.current);
@@ -33,6 +35,8 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
   const [volume, setVolume] = useState(80);
   const [muted, setMuted] = useState(false);
   const [error, setError] = useState('');
+  // Playback mode: false = normal queue order, true = shuffle. Starts in queue order.
+  const [shuffle, setShuffle] = useState(false);
 
   const activePlaylist = musicPlaylists.find((item) => item.id === activePlaylistId) ?? musicPlaylists[0];
   const tracks = activePlaylist?.tracks ?? [];
@@ -89,6 +93,37 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     return -1;
   };
 
+  // Pick a random playable track for shuffle, avoiding the current track (when
+  // other options exist) and any track that already failed. Returns -1 only when
+  // nothing else is playable, so shuffle can never loop on a failed track.
+  const pickRandomIndex = (fromIndex: number) => {
+    const list = getTracks();
+    const count = list.length;
+    if (count === 0) return -1;
+    const candidates: number[] = [];
+    for (let i = 0; i < count; i += 1) {
+      if (i === fromIndex) continue;
+      if (failedTracksRef.current.has(list[i].id)) continue;
+      candidates.push(i);
+    }
+    if (candidates.length === 0) {
+      // Only the current track (or nothing) is playable — replay it if it is the sole option.
+      return count === 1 && !failedTracksRef.current.has(list[0]?.id) ? 0 : -1;
+    }
+    return candidates[Math.floor(Math.random() * candidates.length)];
+  };
+
+  // Resolve the index to advance to based on the current playback mode.
+  const advanceIndex = () => {
+    const from = currentIndexRef.current;
+    if (shuffleRef.current) {
+      // Remember where we came from so Previous can walk back through history.
+      if (from >= 0) historyRef.current.push(from);
+      return pickRandomIndex(from);
+    }
+    return findPlayableIndex(from < 0 ? -1 : from, 1);
+  };
+
   const loadTrack = (index: number, autoplay: boolean) => {
     const track = getTracks()[index];
     const audio = audioRef.current;
@@ -114,6 +149,8 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     if (!track) return;
     // A manual pick gives a previously-failed file another chance.
     failedTracksRef.current.delete(track.id);
+    // An explicit choice starts a fresh shuffle history from here.
+    historyRef.current = [];
     loadTrack(index, true);
   };
 
@@ -139,7 +176,7 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
 
   const next = () => {
     if (tracks.length === 0) return;
-    const index = findPlayableIndex(currentIndexRef.current < 0 ? -1 : currentIndexRef.current, 1);
+    const index = advanceIndex();
     if (index === -1) {
       setError('No playable songs are available right now.');
       return;
@@ -154,6 +191,21 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     if (currentIndexRef.current >= 0 && audio && audio.currentTime > 3) {
       audio.currentTime = 0;
       setCurrentTime(0);
+      return;
+    }
+    if (shuffleRef.current) {
+      // Walk back through shuffle history; fall back to a random other track.
+      const previousIndex = historyRef.current.pop();
+      if (previousIndex !== undefined && previousIndex >= 0 && previousIndex < tracks.length && !failedTracksRef.current.has(tracks[previousIndex].id)) {
+        loadTrack(previousIndex, true);
+        return;
+      }
+      const index = pickRandomIndex(currentIndexRef.current);
+      if (index === -1) {
+        setError('No playable songs are available right now.');
+        return;
+      }
+      loadTrack(index, true);
       return;
     }
     if (currentIndexRef.current < 0) {
@@ -179,12 +231,23 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     setDuration(0);
     setError('');
     failedTracksRef.current = new Set();
+    historyRef.current = [];
     // Stop current audio so switching playlists never overlaps playback.
     audio?.pause();
   };
 
+  // Toggle shuffle without interrupting the current song; reset history on change.
+  const toggleShuffle = () => {
+    setShuffle((current) => {
+      const nextValue = !current;
+      shuffleRef.current = nextValue;
+      historyRef.current = [];
+      return nextValue;
+    });
+  };
+
   const handleEnded = () => {
-    const index = findPlayableIndex(currentIndexRef.current, 1);
+    const index = advanceIndex();
     if (index === -1) {
       setPlaying(false);
       setError('End of playlist.');
@@ -198,7 +261,8 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     const track = getTracks()[currentIndexRef.current];
     if (track) failedTracksRef.current.add(track.id);
     setPlaying(false);
-    const index = findPlayableIndex(currentIndexRef.current, 1);
+    // Skip to the next track for the active mode, never retrying the failed one.
+    const index = shuffleRef.current ? pickRandomIndex(currentIndexRef.current) : findPlayableIndex(currentIndexRef.current, 1);
     if (index === -1) {
       setError('That track could not be played, and no other playable songs remain.');
       return;
@@ -246,23 +310,36 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
         <div className="music-track" title={title}>
           <strong>{title}</strong>
           <span>{subtitle}</span>
-          <div className="music-progress">
-            <span>{formatTime(currentTime)}</span>
-            <input
-              type="range"
-              aria-label="Seek"
-              min={0}
-              max={duration || 0}
-              step="0.1"
-              value={Math.min(currentTime, duration || 0)}
-              disabled={!currentTrack}
-              onChange={(event) => seek(Number(event.target.value))}
-            />
-            <span>{formatTime(duration)}</span>
-          </div>
         </div>
 
-        <div className="music-actions">
+        <button
+          type="button"
+          className={`music-shuffle-toggle${shuffle ? ' is-active' : ''}`}
+          onClick={toggleShuffle}
+          aria-pressed={shuffle}
+          title={shuffle ? 'Shuffle is on — click to play in queue order' : 'Queue order is on — click to shuffle'}
+        >
+          <Icon>{shuffle
+            ? <><path d="M16 3h5v5" /><path d="M4 20 21 3" /><path d="M21 16v5h-5" /><path d="m15 15 6 6" /><path d="M4 4l5 5" /></>
+            : <><path d="M10 6h10" /><path d="M10 12h10" /><path d="M10 18h9" /><path d="M4 5h.5v4" /><path d="M4 11h.5v4" /><path d="M4 17h.5v4" /></>}</Icon>
+        </button>
+
+        <div className="music-progress">
+          <span>{formatTime(currentTime)}</span>
+          <input
+            type="range"
+            aria-label="Seek"
+            min={0}
+            max={duration || 0}
+            step="0.1"
+            value={Math.min(currentTime, duration || 0)}
+            disabled={!currentTrack}
+            onChange={(event) => seek(Number(event.target.value))}
+          />
+          <span>{formatTime(duration)}</span>
+        </div>
+
+        <div className="music-volume-group">
           <button type="button" onClick={toggleMute} aria-label={muted ? 'Unmute' : 'Mute'}>
             <Icon>{muted ? <><path d="M5 10v4h4l5 4V6L9 10H5Z" /><path d="m18 9-4 4" /><path d="m14 9 4 4" /></> : <><path d="M5 10v4h4l5 4V6L9 10H5Z" /><path d="M17 9a4 4 0 0 1 0 6" /></>}</Icon>
           </button>
@@ -275,6 +352,9 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
             value={volume}
             onChange={(event) => changeVolume(Number(event.target.value))}
           />
+        </div>
+
+        <div className="music-playlist-wrap">
           <button type="button" className="music-playlist-toggle" onClick={() => setPanelOpen((open) => !open)} aria-expanded={panelOpen} aria-controls="music-playlist-panel">
             <Icon><path d="M8 6h12" /><path d="M8 12h12" /><path d="M8 18h12" /><path d="M4 6h.01" /><path d="M4 12h.01" /><path d="M4 18h.01" /></Icon>
             <span>Playlist</span>
