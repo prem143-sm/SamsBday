@@ -1,5 +1,22 @@
 # Samiksha birthday gallery
 
-## YouTube Music
+## Local Music Player
 
-Open the playlist button, then enter a name and a standard YouTube playlist URL (or a YouTube watch URL containing a `list` parameter). Playlist names and IDs are stored only in this browser's localStorage. Playback uses YouTube's visible official IFrame player; private, deleted, or unavailable playlists remain subject to YouTube access rules.
+The music player streams local audio files from two playlists:
+
+- **Sam's Playlist** → `public/music/Sams-Playlist/`
+- **Prem's Playlist** → `public/music/Prems-Playlist/`
+
+Supported formats: MP3, M4A, WAV, OGG, and FLAC (FLAC plays only where the browser can decode it). Unsupported or missing files are skipped automatically.
+
+### Adding songs
+
+1. Drop your audio files into the matching folder above.
+2. Regenerate the manifest:
+
+   ```bash
+   npm run music:scan
+   ```
+
+This scans both folders and rewrites `src/data/music-manifest.ts` with the real tracks (stable ids, browser URLs, and readable titles derived from the filenames). The manifest is also refreshed automatically before every `npm run build`.
+

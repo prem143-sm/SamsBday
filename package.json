@@ -7,11 +7,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "prebuild": "npm run photos:scan",
+    "prebuild": "npm run photos:scan && npm run music:scan",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --host",
-    "photos:scan": "node scripts/generate-photo-manifest.mjs"
+    "photos:scan": "node scripts/generate-photo-manifest.mjs",
+    "music:scan": "node scripts/generate-music-manifest.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.121.4",
