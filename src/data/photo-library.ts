@@ -143,10 +143,6 @@ export const photoLibrary: GalleryImage[] = [
     "alt": "IMG 20220313 WA0033"
   },
   {
-    "src": "/Photos/optimized/IMG-20220413-WA0004.webp",
-    "alt": "IMG 20220413 WA0004"
-  },
-  {
     "src": "/Photos/optimized/IMG-20220413-WA0005.webp",
     "alt": "IMG 20220413 WA0005"
   },

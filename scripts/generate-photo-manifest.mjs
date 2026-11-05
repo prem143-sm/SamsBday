@@ -6,32 +6,26 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const photosRoot = path.join(root, 'public', 'Photos');
 const optimizedRoot = path.join(photosRoot, 'optimized');
 const output = path.join(root, 'src', 'data', 'photo-library.ts');
-const supportedExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']);
+const supportedExtensions = new Set(['.webp']);
 
 async function walk(directory) {
   const entries = await fs.readdir(directory, { withFileTypes: true });
   const nested = await Promise.all(entries.map(async (entry) => {
     const fullPath = path.join(directory, entry.name);
-    if (entry.isDirectory()) return fullPath === optimizedRoot ? [] : walk(fullPath);
+    if (entry.isDirectory()) return fullPath === optimizedRoot ? walk(fullPath) : fullPath.endsWith(`${path.sep}temp`) ? [] : walk(fullPath);
     return supportedExtensions.has(path.extname(entry.name).toLowerCase()) ? [fullPath] : [];
   }));
   return nested.flat();
 }
 
 let files = [];
-try { files = await walk(photosRoot); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+try { files = await walk(optimizedRoot); } catch (error) { if (error.code !== 'ENOENT') throw error; }
 files.sort((left, right) => left.localeCompare(right));
 const images = await Promise.all(files.map(async (file) => {
-  const relative = path.relative(photosRoot, file).split(path.sep);
+  const relative = path.relative(optimizedRoot, file).split(path.sep);
   const filename = path.basename(file, path.extname(file));
-  const optimizedFile = path.join(optimizedRoot, ...relative).replace(/\.[^.]+$/, '.webp');
-  try {
-    await fs.access(optimizedFile);
-  } catch {
-    throw new Error(`Missing optimized WebP image for ${path.relative(photosRoot, file)}`);
-  }
   return {
-    src: `/Photos/optimized/${relative.map((segment, index) => encodeURIComponent(index === relative.length - 1 ? `${filename}.webp` : segment)).join('/')}`,
+    src: `/Photos/optimized/${relative.map((segment) => encodeURIComponent(segment)).join('/')}`,
     alt: filename.replace(/[_-]+/g, ' ').trim(),
   };
 }));

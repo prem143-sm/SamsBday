@@ -1,25 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { musicPlaylists } from '../../data/music-manifest';
 import './music-player.css';
 
 interface MusicPlayerProps {
   onBoundsChange?: (top: number) => void;
+  onManageMedia?: () => void;
 }
 
 const formatTime = (seconds: number) => Number.isFinite(seconds) && seconds >= 0
   ? `${Math.floor(seconds / 60)}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`
   : '0:00';
 
-function Icon({ children }: { children: React.ReactNode }) {
-  return <svg className="music-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{children}</svg>;
+function Icon({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <svg className={`music-svg${className ? " " + className : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{children}</svg>;
 }
 
-export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
+export function MusicPlayer({ onBoundsChange, onManageMedia }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const containerRef = useRef<HTMLElement | null>(null);
 
-  // Refs mirror the playback context so async audio events never read stale state.
   const activePlaylistIdRef = useRef(musicPlaylists[0]?.id ?? '');
   const currentIndexRef = useRef(-1);
   const failedTracksRef = useRef<Set<string>>(new Set());
@@ -35,16 +35,22 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
   const [volume, setVolume] = useState(80);
   const [muted, setMuted] = useState(false);
   const [error, setError] = useState('');
-  // Playback mode: false = normal queue order, true = shuffle. Starts in queue order.
   const [shuffle, setShuffle] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const activePlaylist = musicPlaylists.find((item) => item.id === activePlaylistId) ?? musicPlaylists[0];
-  const tracks = activePlaylist?.tracks ?? [];
+  const allTracks = activePlaylist?.tracks ?? [];
+
+  const tracks = allTracks.filter((track) => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return track.title.toLowerCase().includes(q);
+  });
+
   const currentTrack = currentIndex >= 0 ? tracks[currentIndex] : undefined;
 
   const getTracks = () => musicPlaylists.find((item) => item.id === activePlaylistIdRef.current)?.tracks ?? [];
 
-  // Report the player's top edge so the birthday heading can reserve space for it.
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
@@ -62,7 +68,6 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     };
   }, [onBoundsChange]);
 
-  // Keep the single audio element's volume/mute in sync with the UI.
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -70,7 +75,6 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     audio.muted = muted;
   }, [volume, muted]);
 
-  // Close the playlist panel with Escape.
   useEffect(() => {
     if (!panelOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -80,8 +84,14 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     return () => window.removeEventListener('keydown', closeOnEscape);
   }, [panelOpen]);
 
-  // Find the next playable track in `direction`, skipping tracks that already failed.
-  // Returns -1 when every track has failed so we stop instead of looping forever.
+  useEffect(() => {
+    if (!panelOpen) return;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [panelOpen]);
+
   const findPlayableIndex = (fromIndex: number, direction: 1 | -1) => {
     const list = getTracks();
     const count = list.length;
@@ -93,9 +103,6 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     return -1;
   };
 
-  // Pick a random playable track for shuffle, avoiding the current track (when
-  // other options exist) and any track that already failed. Returns -1 only when
-  // nothing else is playable, so shuffle can never loop on a failed track.
   const pickRandomIndex = (fromIndex: number) => {
     const list = getTracks();
     const count = list.length;
@@ -107,17 +114,14 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
       candidates.push(i);
     }
     if (candidates.length === 0) {
-      // Only the current track (or nothing) is playable — replay it if it is the sole option.
       return count === 1 && !failedTracksRef.current.has(list[0]?.id) ? 0 : -1;
     }
     return candidates[Math.floor(Math.random() * candidates.length)];
   };
 
-  // Resolve the index to advance to based on the current playback mode.
   const advanceIndex = () => {
     const from = currentIndexRef.current;
     if (shuffleRef.current) {
-      // Remember where we came from so Previous can walk back through history.
       if (from >= 0) historyRef.current.push(from);
       return pickRandomIndex(from);
     }
@@ -136,8 +140,6 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     audio.src = track.url;
     audio.load();
     if (autoplay) {
-      // Every autoplay call comes from a user gesture or a song that just ended,
-      // so it is allowed; any rejection settles via onPlay/onError.
       audio.play().catch(() => setPlaying(false));
     } else {
       setPlaying(false);
@@ -147,9 +149,7 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
   const playTrack = (index: number) => {
     const track = getTracks()[index];
     if (!track) return;
-    // A manual pick gives a previously-failed file another chance.
     failedTracksRef.current.delete(track.id);
-    // An explicit choice starts a fresh shuffle history from here.
     historyRef.current = [];
     loadTrack(index, true);
   };
@@ -174,27 +174,15 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     else audio.pause();
   };
 
-  const next = () => {
-    if (tracks.length === 0) return;
-    const index = advanceIndex();
-    if (index === -1) {
-      setError('No playable songs are available right now.');
-      return;
-    }
-    loadTrack(index, true);
-  };
-
   const previous = () => {
     if (tracks.length === 0) return;
     const audio = audioRef.current;
-    // Restart the current song if we are already a few seconds in.
     if (currentIndexRef.current >= 0 && audio && audio.currentTime > 3) {
       audio.currentTime = 0;
       setCurrentTime(0);
       return;
     }
     if (shuffleRef.current) {
-      // Walk back through shuffle history; fall back to a random other track.
       const previousIndex = historyRef.current.pop();
       if (previousIndex !== undefined && previousIndex >= 0 && previousIndex < tracks.length && !failedTracksRef.current.has(tracks[previousIndex].id)) {
         loadTrack(previousIndex, true);
@@ -232,11 +220,9 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     setError('');
     failedTracksRef.current = new Set();
     historyRef.current = [];
-    // Stop current audio so switching playlists never overlaps playback.
     audio?.pause();
   };
 
-  // Toggle shuffle without interrupting the current song; reset history on change.
   const toggleShuffle = () => {
     setShuffle((current) => {
       const nextValue = !current;
@@ -261,7 +247,6 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
     const track = getTracks()[currentIndexRef.current];
     if (track) failedTracksRef.current.add(track.id);
     setPlaying(false);
-    // Skip to the next track for the active mode, never retrying the failed one.
     const index = shuffleRef.current ? pickRandomIndex(currentIndexRef.current) : findPlayableIndex(currentIndexRef.current, 1);
     if (index === -1) {
       setError('That track could not be played, and no other playable songs remain.');
@@ -284,6 +269,16 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
   };
 
   const toggleMute = () => setMuted((value) => !value);
+
+  const next = () => {
+    if (tracks.length === 0) return;
+    const index = advanceIndex();
+    if (index === -1) {
+      setError('No playable songs are available right now.');
+      return;
+    }
+    loadTrack(index, true);
+  };
 
   const title = currentTrack
     ? currentTrack.title
@@ -359,6 +354,10 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
             <Icon><path d="M8 6h12" /><path d="M8 12h12" /><path d="M8 18h12" /><path d="M4 6h.01" /><path d="M4 12h.01" /><path d="M4 18h.01" /></Icon>
             <span>Playlist</span>
           </button>
+          <button type="button" className="music-manage-toggle" onClick={() => { setPanelOpen(false); onManageMedia?.(); }} aria-label="Manage Media">
+            <Icon><path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" /></Icon>
+            <span>Manage Media</span>
+          </button>
         </div>
       </div>
 
@@ -380,45 +379,102 @@ export function MusicPlayer({ onBoundsChange }: MusicPlayerProps) {
 
       {panelOpen && createPortal(
         <div className="music-panel-backdrop" onClick={() => setPanelOpen(false)}>
-          <div className="music-panel" role="dialog" aria-modal="true" aria-label="Music playlists" onClick={(event) => event.stopPropagation()}>
+          <div className="music-panel" role="dialog" aria-modal="true" aria-label="Your Music Library" onClick={(event) => event.stopPropagation()}>
             <div className="music-panel-header">
-              <strong>Playlists</strong>
-              <button type="button" onClick={() => setPanelOpen(false)} aria-label="Close playlist panel">×</button>
+              <div className="music-header-left">
+                <Icon className="music-header-icon"><path d="M12 3v10l5-5" /><circle cx="12" cy="8" r="3" /></Icon>
+                <div className="music-header-info">
+                  <strong>Your Music Library</strong>
+                  <p>A little music, a lot of memories.</p>
+                </div>
+              </div>
+              <div className="music-header-right">
+                <button type="button" className="music-manage-btn" onClick={() => { setPanelOpen(false); onManageMedia?.(); }} aria-label="Manage Media">
+                  <Icon><path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" /></Icon>
+                  <span>Manage Media</span>
+                </button>
+                <button type="button" onClick={() => setPanelOpen(false)} aria-label="Close playlist panel">×</button>
+              </div>
             </div>
 
-            <div className="playlist-tabs" role="tablist" aria-label="Select a playlist">
-              {musicPlaylists.map((playlist) => (
-                <button
-                  key={playlist.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={playlist.id === activePlaylistId}
-                  className={playlist.id === activePlaylistId ? 'is-selected' : ''}
-                  onClick={() => switchPlaylist(playlist.id)}
-                >
-                  {playlist.name}
+            <div className="playlist-selector-wrap" role="tablist" aria-label="Select a playlist">
+              {musicPlaylists.map((playlist) => {
+                const isSelected = playlist.id === activePlaylistId;
+                return (
+                  <button
+                    key={playlist.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelected}
+                    className={`playlist-pill ${isSelected ? 'is-selected' : ''}`}
+                    onClick={() => switchPlaylist(playlist.id)}
+                  >
+                    <span className="pill-icon">♪</span>
+                    <span className="pill-name">{playlist.name}</span>
+                    <span className="pill-count">{playlist.tracks.length} track{playlist.tracks.length !== 1 ? 's' : ''}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="playlist-search-wrap">
+              <div className="search-icon">
+                <Icon><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></Icon>
+              </div>
+              <input
+                type="search"
+                className="playlist-search"
+                placeholder="Search songs, artists, or titles..."
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                aria-label="Search songs"
+              />
+              {searchQuery && (
+                <button type="button" className="search-clear" onClick={() => setSearchQuery('')} aria-label="Clear search">
+                  ×
                 </button>
-              ))}
+              )}
             </div>
 
             <div className="playlist-songs">
               {tracks.length === 0 ? (
-                <p className="music-empty">
-                  No songs in {activePlaylist?.name ?? 'this playlist'} yet. Add audio files to
-                  <code> public/music/{activePlaylist?.folder}</code> and run <code>npm run music:scan</code>.
-                </p>
+                <div className="music-empty">
+                  <p>{searchQuery ? 'No matching songs found.' : `No songs in ${activePlaylist?.name ?? 'this playlist'} yet.`}</p>
+                  {searchQuery && <p className="music-empty-hint">Try adjusting your search.</p>}
+                </div>
               ) : (
-                tracks.map((track, index) => (
-                  <button
-                    key={track.id}
-                    type="button"
-                    className={index === currentIndex ? 'is-selected' : ''}
-                    onClick={() => playTrack(index)}
-                  >
-                    <span className="song-number">{String(index + 1).padStart(2, '0')}</span>
-                    <span className="song-title">{track.title}</span>
-                  </button>
-                ))
+                tracks.map((track, index) => {
+                  const isPlaying = index === currentIndex && playing;
+                  const isSelected = index === currentIndex;
+                  return (
+                    <button
+                      key={track.id}
+                      type="button"
+                      role="listitem"
+                      className={`song-row ${isSelected ? 'is-active' : ''} ${isPlaying ? 'is-playing' : ''}`}
+                      onClick={() => playTrack(index)}
+                      onMouseDown={(e) => e.preventDefault()}
+                    >
+                      <span className="song-number">
+                        {isPlaying ? <Icon><path d="M9 5v14" /><path d="M15 5v14" /></Icon> : String(index + 1).padStart(2, '0')}
+                      </span>
+                      <div className="song-info">
+                        <span className="song-title" title={track.title}>{track.title}</span>
+                        <span className="song-artist">
+                          {isPlaying ? 'Now Playing' : activePlaylist.name}
+                        </span>
+                      </div>
+                      <div className="song-actions">
+                        <button type="button" className="song-play-btn" onClick={(e) => { e.stopPropagation(); playTrack(index); }} aria-label={isPlaying ? 'Pause' : 'Play'}>
+                          <Icon>{isPlaying ? <><path d="M9 5v14" /><path d="M15 5v14" /></> : <path d="m8 5 11 7-11 7V5Z" fill="currentColor" stroke="none" />}</Icon>
+                        </button>
+                        <button type="button" className="song-more-btn" onClick={(e) => { e.stopPropagation(); }} aria-label="More options">
+                          <Icon><circle cx="12" cy="12" r="1" /><circle cx="12" cy="5" r="1" /><circle cx="12" cy="19" r="1" /></Icon>
+                        </button>
+                      </div>
+                    </button>
+                  );
+                })
               )}
             </div>
           </div>
