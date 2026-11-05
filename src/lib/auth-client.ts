@@ -23,17 +23,32 @@ async function apiFetch(path: string, options: RequestInit = {}): Promise<Respon
 }
 
 export async function authenticateBirthday(samDob: string, premDob: string): Promise<AuthResponse> {
-  const res = await apiFetch('/api/auth', { method: 'POST', body: JSON.stringify({ samDob, premDob }) });
-  const isJson = res.headers.get('content-type')?.includes('application/json');
-  const data = isJson ? await res.json().catch(() => ({})) : { error: 'Authentication service is unavailable. Please restart the local server.' };
-  if (res.ok && data.user) { cachedUser = data.user; cacheExpiry = Date.now() + 24 * 60 * 60 * 1000; }
-  return { ok: res.ok, user: data.user, error: data.error, retryAfter: data.retryAfter };
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12_000);
+  try {
+    const res = await apiFetch('/api/auth', {
+      method: 'POST',
+      body: JSON.stringify({ samDob, premDob }),
+      signal: controller.signal,
+    });
+    const isJson = res.headers.get('content-type')?.includes('application/json');
+    const data = isJson ? await res.json().catch(() => ({})) : { error: 'The authentication service returned an unexpected response.' };
+    if (res.ok && data.user) { cachedUser = data.user; cacheExpiry = Date.now() + 24 * 60 * 60 * 1000; }
+    return { ok: res.ok, user: data.user, error: data.error, retryAfter: data.retryAfter };
+  } catch (error) {
+    if (controller.signal.aborted) {
+      return { ok: false, error: 'Authentication timed out. Please try again.' };
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 export async function getSession(): Promise<AuthUser | null> {
   if (cachedUser && Date.now() < cacheExpiry) return cachedUser;
   try {
-    const res = await apiFetch('/api/auth/session');
+    const res = await apiFetch('/api/auth?action=session');
     if (res.ok) {
       const data = await res.json();
       if (data.user) { cachedUser = data.user; cacheExpiry = Date.now() + 24 * 60 * 60 * 1000; return data.user; }
@@ -45,7 +60,7 @@ export async function getSession(): Promise<AuthUser | null> {
 
 export async function signOut(): Promise<void> {
   cachedUser = null; cacheExpiry = 0;
-  await apiFetch('/api/auth/signout', { method: 'POST' }).catch(() => {});
+  await apiFetch('/api/auth?action=signout', { method: 'POST' }).catch(() => {});
 }
 
 export async function listMedia(mediaType: 'audio' | 'photo', playlist?: 'sams-playlist' | 'prems-playlist'): Promise<MediaItem[]> {

@@ -12,6 +12,7 @@
  */
 
 import { createHmac, timingSafeEqual } from 'node:crypto';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 // In-memory rate limiter (resets on cold start — sufficient for personal site).
 const failedAttempts = new Map<string, { count: number; lockoutUntil: number }>();
@@ -90,7 +91,7 @@ function verifySession(signed: string, secret: string): string | null {
   if (Date.now() - parseInt(timestamp, 10) > 7 * 24 * 60 * 60 * 1000) return null; // 7 days
   return userId;
 }
-export default async function handler(req: Request): Promise<Response> {
+async function handleAuth(req: Request): Promise<Response> {
   const secret = process.env.SESSION_SECRET;
   if (!secret) {
     return new Response(JSON.stringify({ ok: false, error: 'Server misconfigured.' }), {
@@ -104,7 +105,7 @@ export default async function handler(req: Request): Promise<Response> {
   const method = req.method;
 
   // ---- Session check ----
-  if (url.pathname.endsWith('/session') && method === 'GET') {
+  if ((url.pathname.endsWith('/session') || url.searchParams.get('action') === 'session') && method === 'GET') {
     const cookie = req.headers.get('cookie') || '';
     const match = cookie.match(/(?:^|;\s*)samiksha_session=([^;]+)/);
     const userId = match ? verifySession(decodeURIComponent(match[1]), secret) : null;
@@ -116,7 +117,7 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   // ---- Signout ----
-  if (url.pathname.endsWith('/signout') && method === 'POST') {
+  if ((url.pathname.endsWith('/signout') || url.searchParams.get('action') === 'signout') && method === 'POST') {
     const secure = process.env.VERCEL || req.headers.get('x-forwarded-proto') === 'https' ? '; Secure' : '';
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
@@ -213,3 +214,51 @@ export default async function handler(req: Request): Promise<Response> {
     }
   );
 }
+
+type VercelRequest = IncomingMessage & { body?: unknown };
+
+function requestHeaders(req: IncomingMessage): Headers {
+  const headers = new Headers();
+  for (const [name, value] of Object.entries(req.headers)) {
+    if (typeof value === 'string') headers.set(name, value);
+    else if (Array.isArray(value)) headers.set(name, value.join(', '));
+  }
+  return headers;
+}
+
+/**
+ * Vite calls this with a Fetch Request; Vercel's Node runtime supplies the
+ * parsed body on an IncomingMessage. Avoid reading the request stream here:
+ * Vercel has already consumed it while parsing JSON bodies.
+ */
+async function handler(req: Request): Promise<Response>;
+async function handler(req: VercelRequest, res: ServerResponse): Promise<void>;
+async function handler(req: Request | VercelRequest, res?: ServerResponse): Promise<Response | void> {
+  if (req instanceof Request) return handleAuth(req);
+
+  if (!res) throw new Error('Vercel response object is unavailable.');
+
+  const method = req.method ?? 'GET';
+  const forwardedProtocol = req.headers['x-forwarded-proto'];
+  const protocol = (Array.isArray(forwardedProtocol) ? forwardedProtocol[0] : forwardedProtocol)?.split(',')[0] ?? 'http';
+  const host = req.headers.host ?? 'localhost';
+  const body = req.body;
+  const requestBody: string | undefined = body == null || method === 'GET' || method === 'HEAD'
+    ? undefined
+    : typeof body === 'string'
+      ? body
+      : body instanceof Uint8Array
+        ? new TextDecoder().decode(body)
+        : JSON.stringify(body);
+  const request = new Request(new URL(req.url ?? '/api/auth', `${protocol}://${host}`), {
+    method,
+    headers: requestHeaders(req),
+    body: requestBody,
+  });
+  const response = await handleAuth(request);
+  res.statusCode = response.status;
+  response.headers.forEach((value: string, key: string) => res.setHeader(key, value));
+  res.end(Buffer.from(await response.arrayBuffer()));
+}
+
+export default handler;
